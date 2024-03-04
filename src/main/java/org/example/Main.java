@@ -13,6 +13,7 @@ public class Main extends JFrame {
     private JButton selectImageButton; // Button to select an image
     private JButton encodeButton;
     private JButton decodeButton;
+    private JButton helpButton;
     private JLabel imageLabel; // To display selected image
     private String selectedImagePath; // To store the selected image path
 
@@ -26,14 +27,14 @@ public class Main extends JFrame {
         panel.setLayout(new BorderLayout());
 
         JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new GridLayout(1, 3));
+        buttonPanel.setLayout(new GridLayout(1, 4));
 
         selectImageButton = new JButton("Select Image");
         encodeButton = new JButton("Encode");
         decodeButton = new JButton("Decode");
-
-        encodeButton.setEnabled(false); // Initially disabled
-        decodeButton.setEnabled(false); // Initially disabled
+        helpButton = new JButton("Help");
+        encodeButton.setEnabled(false);
+        decodeButton.setEnabled(false);
 
         selectImageButton.addActionListener(new ActionListener() {
             @Override
@@ -55,11 +56,16 @@ public class Main extends JFrame {
                 decodeMessage();
             }
         });
-
+        helpButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                helpScreen();
+            }
+        });
         buttonPanel.add(selectImageButton);
         buttonPanel.add(encodeButton);
         buttonPanel.add(decodeButton);
-
+        buttonPanel.add(helpButton);
         panel.add(buttonPanel, BorderLayout.SOUTH);
 
         imageLabel = new JLabel();
@@ -68,6 +74,14 @@ public class Main extends JFrame {
         add(panel);
         setVisible(true);
     }
+
+    private void helpScreen() {
+        JOptionPane.showMessageDialog(this, "Help Information:\n\n" +
+                "1. Select a PNG image using the 'Select Image' button.\n" +
+                "2. Encode a message by clicking the 'Encode' button. Enter the message to encrypt.\n" +
+                "3. Decode an image by clicking the 'Decode' button. (The selected image must be encrypted beforehand.)");
+    }
+
 
     private void selectImage() {
         // Prompt user to choose an image file
@@ -102,7 +116,6 @@ public class Main extends JFrame {
             JOptionPane.showMessageDialog(this, "Please select an image first.");
         }
     }
-
     private void decodeMessage() {
         if (selectedImagePath != null && !selectedImagePath.isEmpty()) {
             String messgae = SteganographyApp.decodeAndPrint(selectedImagePath);
@@ -120,7 +133,6 @@ public class Main extends JFrame {
         ImageIcon icon = new ImageIcon(image);
         imageLabel.setIcon(icon);
     }
-
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
