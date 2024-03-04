@@ -10,12 +10,12 @@ import java.io.File;
 import java.io.IOException;
 
 public class Main extends JFrame {
-    private JButton selectImageButton; // Button to select an image
+    private JButton selectImageButton;
     private JButton encodeButton;
     private JButton decodeButton;
     private JButton helpButton;
-    private JLabel imageLabel; // To display selected image
-    private String selectedImagePath; // To store the selected image path
+    private JLabel imageLabel;
+    private String selectedImagePath;
 
     public Main() {
         setTitle("Steganography Tool");
@@ -84,10 +84,9 @@ public class Main extends JFrame {
 
 
     private void selectImage() {
-        // Prompt user to choose an image file
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle("Choose Image File");
-        FileNameExtensionFilter filter = new FileNameExtensionFilter("Image Files", "png");
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Image Files", "jpg", "jpeg", "png", "bmp", "gif");
         fileChooser.setFileFilter(filter);
 
         int returnValue = fileChooser.showOpenDialog(this);
@@ -98,8 +97,8 @@ public class Main extends JFrame {
             try {
                 BufferedImage image = ImageIO.read(new File(selectedImagePath));
                 displayImage(image);
-                encodeButton.setEnabled(true); // Enable encode button
-                decodeButton.setEnabled(true); // Enable decode button
+                encodeButton.setEnabled(true);
+                decodeButton.setEnabled(true);
             } catch (IOException ex) {
                 ex.printStackTrace();
                 JOptionPane.showMessageDialog(this, "Error occurred while loading the image.");

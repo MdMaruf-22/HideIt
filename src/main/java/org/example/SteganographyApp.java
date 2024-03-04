@@ -43,8 +43,8 @@ public class SteganographyApp {
             int bit = (messageLength >> i) & 1;
             int rgb = image.getRGB(pixelIndex % imageWidth, pixelIndex / imageWidth);
 
-            rgb &= 0xFFFFFFFE; // Clear the least significant bit
-            rgb |= bit;       // Set the bit
+            rgb &= 0xFFFFFFFE;
+            rgb |= bit;
 
             image.setRGB(pixelIndex % imageWidth, pixelIndex / imageWidth, rgb);
             pixelIndex++;
@@ -55,8 +55,8 @@ public class SteganographyApp {
                 int bit = (b >> i) & 1;
                 int rgb = image.getRGB(pixelIndex % imageWidth, pixelIndex / imageWidth);
 
-                rgb &= 0xFFFFFFFE; // Clear the least significant bit
-                rgb |= bit;       // Set the bit
+                rgb &= 0xFFFFFFFE;
+                rgb |= bit;
 
                 image.setRGB(pixelIndex % imageWidth, pixelIndex / imageWidth, rgb);
                 pixelIndex++;
