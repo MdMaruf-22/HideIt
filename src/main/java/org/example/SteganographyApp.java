@@ -40,8 +40,11 @@ public class SteganographyApp {
         int pixelIndex = 0;
 
         for (int i = 0; i < 32; i++) {
-            int bit = (messageLength >> i) & 1;
-            int rgb = image.getRGB(pixelIndex % imageWidth, pixelIndex / imageWidth);
+            int shifted = messageLength >> i;
+            int bit = shifted & 1;
+            int x = pixelIndex % imageWidth;
+            int y = pixelIndex / imageWidth;
+            int rgb = image.getRGB(x, y);
 
             rgb &= 0xFFFFFFFE;
             rgb |= bit;
@@ -52,8 +55,11 @@ public class SteganographyApp {
 
         for (byte b : messageBytes) {
             for (int i = 0; i < 8; i++) {
-                int bit = (b >> i) & 1;
-                int rgb = image.getRGB(pixelIndex % imageWidth, pixelIndex / imageWidth);
+                int shiftedByte = b >> i;
+                int bit = shiftedByte & 1;
+                int x = pixelIndex % imageWidth;
+                int y = pixelIndex / imageWidth;
+                int rgb = image.getRGB(x, y);
 
                 rgb &= 0xFFFFFFFE;
                 rgb |= bit;
@@ -70,8 +76,12 @@ public class SteganographyApp {
         int messageLength = 0;
 
         for (int i = 0; i < 32; i++) {
-            int bit = image.getRGB(pixelIndex % imageWidth, pixelIndex / imageWidth) & 1;
-            messageLength |= bit << i;
+            int x = pixelIndex % imageWidth;
+            int y = pixelIndex / imageWidth;
+            int rgb = image.getRGB(x, y);
+            int bit = rgb & 1;
+            int shiftedBit = bit << i;
+            messageLength |= shiftedBit;
             pixelIndex++;
         }
 
@@ -80,8 +90,13 @@ public class SteganographyApp {
         for (int i = 0; i < messageLength; i++) {
             byte b = 0;
             for (int j = 0; j < 8; j++) {
-                int bit = image.getRGB(pixelIndex % imageWidth, pixelIndex / imageWidth) & 1;
-                b |= bit << j;
+                // Finding the pixel coordinates from pixelIndex
+                int x = pixelIndex % imageWidth;
+                int y = pixelIndex / imageWidth;
+                int rgb = image.getRGB(x, y);
+                int bit = rgb & 1;
+                int shiftedBit = bit << j;
+                b |= shiftedBit;
                 pixelIndex++;
             }
             messageBytes[i] = b;
